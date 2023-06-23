@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
+import { GoalItem } from './components/GoalItem';
+import { GoalInput } from './components/GoalInput';
 
 export default function App() {
   const [enteredText, setEnteredText] = React.useState('');
@@ -13,20 +15,17 @@ export default function App() {
     setCourseGoals(currentCourseGoals => [...currentCourseGoals, {key: currentCourseGoals.length, text: enteredText}]);
   }
 
-  const listOfContent = (itemData) => {
-    return (
-      <View style={styles.goalItem}>
-        <Text style={styles.goalItemText}>{itemData.item.text}</Text>
-      </View>
-    )
+  const listOfContent = (itemData) => <GoalItem itemData={itemData} deleteItem={deleteItem}/>
+
+  const deleteItem = (id) => {
+    setCourseGoals(currentCourseGoals => {
+      return currentCourseGoals.filter(goal => goal.key !== id );
+    })
   }
 
   return (
     <View style={styles.appContainer}>
-      <View style={styles.inputContainer}>
-        <TextInput placeholder='Your Course Goal' style={styles.textInput} onChangeText={goalInputHandler}/>
-        <Button title='Add Goal' onPress={addGoal}/>
-      </View> 
+      <GoalInput goalInputHandler={goalInputHandler} addGoal={addGoal}/>
       <View style={styles.goalsContainer}>
         <FlatList data={courseGoals} renderItem={listOfContent}/>
       </View>
@@ -40,32 +39,7 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 16
   },
-  inputContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: '#cccccc'
-  },
-  textInput: {
-    width: '70%',
-    borderWidth: 1,
-    borderColor: '#cccccc',
-    marginRight: 8,
-    padding: 8
-  },
   goalsContainer: {
     flex: 5,
   },
-  goalItem: {
-    marginBottom: 8,  
-    borderRadius: 6,
-    backgroundColor: '#5e0acc',
-    padding: 12,
-  },
-  goalItemText: {
-    color: '#fafafa'
-  }
 });
