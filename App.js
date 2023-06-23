@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList, Button } from 'react-native';
 import { GoalItem } from './components/GoalItem';
 import { GoalInput } from './components/GoalInput';
 
 export default function App() {
   const [enteredText, setEnteredText] = React.useState('');
   const [courseGoals, setCourseGoals] = React.useState([]);
+  const [modalVisibility, setModalVisibility] = React.useState(false);
   
   const goalInputHandler = (e) => {
     setEnteredText(e);
@@ -13,6 +14,7 @@ export default function App() {
 
   const addGoal = () => {
     setCourseGoals(currentCourseGoals => [...currentCourseGoals, {key: currentCourseGoals.length, text: enteredText}]);
+    modalHandler();
   }
 
   const listOfContent = (itemData) => <GoalItem itemData={itemData} deleteItem={deleteItem}/>
@@ -23,9 +25,16 @@ export default function App() {
     })
   }
 
+  const modalHandler = () => {
+    setModalVisibility(!modalVisibility);
+  }
+
   return (
     <View style={styles.appContainer}>
-      <GoalInput goalInputHandler={goalInputHandler} addGoal={addGoal}/>
+      <View style={styles.modalBtn}>
+        <Button title='Add New Goal' onPress={modalHandler}/>
+      </View>
+      <GoalInput goalInputHandler={goalInputHandler} addGoal={addGoal} modalVisibility={modalVisibility} modalHandler={modalHandler}/>
       <View style={styles.goalsContainer}>
         <FlatList data={courseGoals} renderItem={listOfContent}/>
       </View>
@@ -42,4 +51,7 @@ const styles = StyleSheet.create({
   goalsContainer: {
     flex: 5,
   },
+  modalBtn: {
+    marginBottom: 8
+  }
 });
