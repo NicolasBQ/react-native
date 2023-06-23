@@ -8,10 +8,10 @@ const GoalInput = ({ goalInputHandler, addGoal, modalVisibility, modalHandler })
                 <TextInput placeholder='Your Course Goal' style={styles.textInput} onChangeText={goalInputHandler}/>
                 <View style={styles.buttonsContainer}>
                     <View style={styles.button}>
-                        <Button title='Add Goal' onPress={addGoal}/>
+                        <Button title='Add Goal' onPress={addGoal} color='#b180f0'/>
                     </View>
                     <View style={styles.button}>
-                        <Button title='Cancel' onPress={modalHandler}/>
+                        <Button title='Cancel' onPress={modalHandler} color='#f31282'/>
                     </View>
                 </View>
             </View>
@@ -30,9 +30,11 @@ const styles = StyleSheet.create({
     textInput: {
         width: '100%',
         borderWidth: 1,
-        borderColor: '#cccccc',
-        padding: 8,
-        color: '#fafafa'
+        borderColor: '#e4d0ff',
+        borderRadius: 6,
+        backgroundColor: '#e4d0ff',
+        padding: 16,
+        color: '#120438'
     },
     buttonsContainer: {
         flexDirection: 'row',

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, FlatList, Button } from 'react-native';
 import { GoalItem } from './components/GoalItem';
 import { GoalInput } from './components/GoalInput';
+import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
   const [enteredText, setEnteredText] = React.useState('');
@@ -30,15 +31,18 @@ export default function App() {
   }
 
   return (
-    <View style={styles.appContainer}>
-      <View style={styles.modalBtn}>
-        <Button title='Add New Goal' onPress={modalHandler}/>
+    <>
+      <StatusBar style='light'/>
+      <View style={styles.appContainer}>
+        <View style={styles.modalBtn}>
+          <Button title='Add New Goal' onPress={modalHandler}/>
+        </View>
+        <GoalInput goalInputHandler={goalInputHandler} addGoal={addGoal} modalVisibility={modalVisibility} modalHandler={modalHandler}/>
+        <View style={styles.goalsContainer}>
+          <FlatList data={courseGoals} renderItem={listOfContent}/>
+        </View>
       </View>
-      <GoalInput goalInputHandler={goalInputHandler} addGoal={addGoal} modalVisibility={modalVisibility} modalHandler={modalHandler}/>
-      <View style={styles.goalsContainer}>
-        <FlatList data={courseGoals} renderItem={listOfContent}/>
-      </View>
-    </View>
+    </>
   );
 }
 
@@ -46,7 +50,8 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
     paddingTop: 50,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
+    backgroundColor: '#1e085a'
   },
   goalsContainer: {
     flex: 5,
