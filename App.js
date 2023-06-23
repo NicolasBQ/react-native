@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from 'react-native';
 
 export default function App() {
   const [enteredText, setEnteredText] = React.useState('');
@@ -10,14 +10,16 @@ export default function App() {
   }
 
   const addGoal = () => {
-    setCourseGoals(currentCourseGoals => [...currentCourseGoals, enteredText]);
+    setCourseGoals(currentCourseGoals => [...currentCourseGoals, {key: currentCourseGoals.length, text: enteredText}]);
   }
 
-  const listContent = courseGoals.map((goal, index) => {
-    return <View style={styles.goalItem} key={index}>
-              <Text style={styles.goalItemText}>{goal}</Text>
-          </View>
-  });
+  const listOfContent = (itemData) => {
+    return (
+      <View style={styles.goalItem}>
+        <Text style={styles.goalItemText}>{itemData.item.text}</Text>
+      </View>
+    )
+  }
 
   return (
     <View style={styles.appContainer}>
@@ -26,9 +28,7 @@ export default function App() {
         <Button title='Add Goal' onPress={addGoal}/>
       </View> 
       <View style={styles.goalsContainer}>
-        <ScrollView>
-          {listContent}
-        </ScrollView>
+        <FlatList data={courseGoals} renderItem={listOfContent}/>
       </View>
     </View>
   );
